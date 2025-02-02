@@ -25,14 +25,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email,
             password,
           });
-          console.log(res.data)
+          console.log(res.data);
 
           if (res.data.token) {
             return {
-              id: res.data.user._id,
+              id: res.data.user.id,
               email: res.data.user.email,
               fullName: res.data.user.fullName,
               userName: res.data.user.userName,
+              image: res.data.user.profileImage,
             };
           } else {
             return null;
@@ -42,34 +43,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
       },
-
     }),
   ],
 
   // Session settings to use JWT
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
 
   callbacks: {
     async jwt({ token, user }) {
-      console.log(user, "jwt callback")
+      console.log(user, "jwt callback");
       if (user) {
-        token.id = user.id
-        token.email = user.email,
-        token.fullName = user.fullName,
-        token.userName = user.userName
+        token.id = user.id;
+        token.email = user.email;
+        token.fullName = user.fullName;
+        token.userName = user.userName;
+        token.image = user.image;
       }
       return token;
     },
 
     async session({ session, token }) {
-      console.log(session, token, "session callback")
+      console.log(session, token, "session callback");
       // Add token info to session
       session.user.id = token.id;
       session.user.email = token.email;
       session.user.fullName = token.fullName;
       session.user.userName = token.userName;
+      session.user.image = token.image;
       return session;
     },
   },
@@ -80,15 +82,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   cookies: {
     sessionToken: {
-      name: 'authjs.session-token',
+      name: "authjs.session-token",
       options: {
-
         httpOnly: true, // Make sure cookie is HttpOnly
-        sameSite: 'lax', // Or 'strict' depending on your needs
-        path: '/', // Ensure the path is set to root if you want it to be accessible across your app
-      }
-    }
+        sameSite: "lax", // Or 'strict' depending on your needs
+        path: "/", // Ensure the path is set to root if you want it to be accessible across your app
+      },
+    },
   },
 
-  secret: process.env.AUTH_SECRET
+  secret: process.env.AUTH_SECRET,
 });

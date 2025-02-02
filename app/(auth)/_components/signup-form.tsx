@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { API } from "@/app/utils/constants";
+import { API, DEFAULT_REDIRECT_PATH } from "@/app/utils/constants";
 import {
   Form,
   FormControl,
@@ -17,7 +17,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MdLinkedCamera } from "react-icons/md";
 import axios from "axios";
-import { onSubmit } from "@/actions/auth";
+import { credentialsLogin } from "@/actions/auth";
+import { toast } from "react-toastify";
+import { errorHandler } from "@/app/utils/helper";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   image: z
@@ -52,6 +55,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Signup() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,19 +85,25 @@ export default function Signup() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response);
+
       if (response.data.success) {
-        await onSubmit({
+
+        toast.success("Account Created Successfully!")
+
+        await credentialsLogin({
           email: data.email,
           password: data.password,
         });
+
+        router.push(DEFAULT_REDIRECT_PATH)
+      } else {
+        toast.error(response.data.message || "Something Went Wrong!")
       }
     } catch (err) {
-      console.log(err);
+     errorHandler(err)
     } finally {
       setLoading(false);
     }
-    console.log(data);
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

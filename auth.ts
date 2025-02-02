@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { API } from "./app/utils/constants";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,12 +21,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials;
         try {
-          const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/auth/login`, {
+          const res = await axios.post(`${API}/auth/login`, {
             email,
             password,
           });
-
-          console.log(res.data); 
+          console.log(res.data)
 
           if (res.data.token) {
             return {
@@ -33,10 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               email: res.data.user.email,
               fullName: res.data.user.fullName,
               userName: res.data.user.userName,
-              token: res.data.token, 
             };
           } else {
-            return null; 
+            return null;
           }
         } catch (error) {
           console.error("Error during authorization:", error);
@@ -49,36 +48,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   // Session settings to use JWT
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
 
   callbacks: {
     async jwt({ token, user }) {
-      console.log(token,user,"jwt callback")
+      console.log(user, "jwt callback")
       if (user) {
         token.id = user.id
-        token.email= user.email,
-        token.fullName= user.fullName,
-        token.userName= user.userName,
-        token.token = user?.token;
+        token.email = user.email,
+        token.fullName = user.fullName,
+        token.userName = user.userName
       }
       return token;
     },
 
     async session({ session, token }) {
-      console.log(session,token,"session callback")
+      console.log(session, token, "session callback")
       // Add token info to session
       session.user.id = token.id;
       session.user.email = token.email;
       session.user.fullName = token.fullName;
       session.user.userName = token.userName;
-      session.token = token.token; 
       return session;
     },
   },
 
   pages: {
     signIn: "/login",
+  },
+
+  cookies: {
+    sessionToken: {
+      name: 'authjs.session-token',
+      options: {
+
+        httpOnly: true, // Make sure cookie is HttpOnly
+        sameSite: 'lax', // Or 'strict' depending on your needs
+        path: '/', // Ensure the path is set to root if you want it to be accessible across your app
+      }
+    }
   },
 
   secret: process.env.AUTH_SECRET

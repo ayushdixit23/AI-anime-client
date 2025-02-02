@@ -6,23 +6,34 @@ import {
   DEFAULT_RESTRICTED_REDIRECT_PATH,
 } from "@/app/utils/constants";
 import { signIn, signOut } from "@/auth";
+import { AuthError } from "next-auth";
 
-export const onSubmit = async (data: FormValues) => {
+export const credentialsLogin = async (data: FormValues) => {
   try {
-    console.log("credentials");
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       ...data,
-      redirect: true,
-      redirectTo: DEFAULT_REDIRECT_PATH,
+      redirect: false, // Don't redirect automatically
     });
-  } catch (error) {
-    throw error;
+
+    return result;
+  } catch (error: unknown) {
+    if (error instanceof AuthError) {
+        console.log(error.message,"tryiing mess")
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: error.message|| "Invalid credentials." }
+
+        default:
+          return { error: "Something went wrong." }
+      }
+    }
+    throw error
   }
 };
 
-export const loginWithGoogle = async () => {
+
+export const signGoogleServer = async () => {
   try {
-    console.log("google");
     await signIn("google", { callbackUrl: DEFAULT_REDIRECT_PATH });
   } catch (error) {
     throw error;
@@ -34,5 +45,5 @@ export const logOut = async () => {
   await signOut({
     redirect: true,
     redirectTo: DEFAULT_RESTRICTED_REDIRECT_PATH,
-  }); // Ensure you await the sign out function
+  });
 };

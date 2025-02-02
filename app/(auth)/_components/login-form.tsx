@@ -10,11 +10,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FaSpinner } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { loginWithGoogle, onSubmit } from "@/actions/auth";
+import { credentialsLogin, signGoogleServer } from "@/actions/auth";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { errorHandler } from "@/app/utils/helper";
+import { DEFAULT_REDIRECT_PATH } from "@/app/utils/constants";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -31,13 +37,52 @@ const formSchema = z.object({
 export type FormValues = z.infer<typeof formSchema>;
 
 export default function FormDemo() {
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false)
+  const router = useRouter()
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "kalesatyam669@gmail.com",
-      password: "test@444",
+      email: "ayushdixitdev@gmail.com",
+      password: "ayushdixitde"
     },
   });
+
+  const loginWithGoogle = async () => {
+    setGoogleLoading(true)
+    try {
+      await signGoogleServer();
+      toast.success("Login Successfull!");
+    } catch (error: unknown) {
+      errorHandler(error)
+    } finally {
+      setGoogleLoading(false)
+    }
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    try {
+      setLoading(true);
+
+      const res = await credentialsLogin(data);
+
+      if (res.error) {
+        toast.error(res?.error.split(".")[0])
+        return
+      }
+
+      toast.success("Login Successfull!");
+
+      router.push(DEFAULT_REDIRECT_PATH)
+    } catch (error) {
+      // Handle different error scenarios
+      console.log(error)
+
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     // bg-gradient-to-r from-[#1A1A2E]
@@ -92,10 +137,11 @@ export default function FormDemo() {
 
             <motion.button
               whileHover={{ scale: 1.05 }}
+              disabled={loading}
               className="w-full bg-white text-black py-3 rounded-xl font-semibold shadow-md"
               type="submit"
             >
-              Submit
+              {loading ? "Loading..." : "Continue"}
             </motion.button>
           </form>
         </Form>
@@ -106,10 +152,12 @@ export default function FormDemo() {
         </div>
         <motion.button
           onClick={loginWithGoogle}
+          disabled={googleLoading}
           whileHover={{ scale: 1.05 }}
           className="w-full flex items-center justify-center bg-blue-600 py-3 rounded-xl font-semibold shadow-md"
         >
-          <FcGoogle className="mr-2" /> Login with Google
+          {googleLoading ? <FaSpinner className="animate-spin text-white mr-2" size={20} /> : <> <FcGoogle className="mr-2" /> Login with Google</>}
+
         </motion.button>
         <p className="text-sm font-light mt-6 text-white text-center">
           Don’t have an account yet?{" "}

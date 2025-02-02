@@ -1,9 +1,9 @@
 import React from 'react'
-import FormDemo from '../_components/login-form'
+import Signup from '../_components/signup-form'
 
 const page = () => {
   return (
-    <FormDemo />
+    <div><Signup/></div>
   )
 }
 

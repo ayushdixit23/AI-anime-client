@@ -1,9 +1,9 @@
 import React from 'react'
-import FormDemo from '../_components/login-form'
+import LoginForm from '../_components/login-form'
 
 const page = () => {
   return (
-    <FormDemo />
+    <LoginForm />
   )
 }
 

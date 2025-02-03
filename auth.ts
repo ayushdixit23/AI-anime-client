@@ -1,8 +1,8 @@
-import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { API } from "./app/utils/constants";
+import NextAuth, { CredentialsSignin } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,11 +20,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         const { email, password } = credentials;
-    
+
         try {
           const res = await axios.post(`${API}/auth/login`, { email, password });
-    
-          if (res.data.token) {
+
+          if (res.data.success) {
             return {
               id: res.data.user.id,
               email: res.data.user.email,
@@ -33,26 +33,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               image: res.data.user.profileImage,
             };
           } else {
-            // Return the error message if login fails (incorrect credentials)
             return { error: res.data.message || "Invalid credentials" };
           }
-        } catch (error) {
-          if (error.response) {
-            // Handle error from backend (e.g., 401)
-            throw new CredentialsSignin(error.response.data.message || "Something went wrong.")
-            // return { error: error.response.data.message || "Something went wrong" };
-          } else if (error.request) {
-            // No response from server
+        } catch (error: unknown) {
+          if (error?.response) {
+            throw new CredentialsSignin(error?.response?.data?.message || "Something went wrong.")
+          } else if (error?.request) {
             throw new CredentialsSignin("Server not responding. Please try again later.")
-            // return { error: "Server not responding. Please try again later." };
           } else {
-            // Other errors
             throw new CredentialsSignin("An error occurred during login. Please try again.")
-            // return { error: "An error occurred during login. Please try again." };
+
           }
         }
       },
-    
+
     }),
   ],
 
@@ -123,17 +117,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/login",
   },
-
-  // cookies: {
-  //   sessionToken: {
-  //     name: "authjs.session-token",
-  //     options: {
-  //       httpOnly: true, // Make sure cookie is HttpOnly
-  //       sameSite: "lax", // Or 'strict' depending on your needs
-  //       path: "/", // Ensure the path is set to root if you want it to be accessible across your app
-  //     },
-  //   },
-  // },
 
   secret: process.env.AUTH_SECRET,
 });

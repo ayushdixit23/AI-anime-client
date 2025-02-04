@@ -36,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return { error: res.data.message || "Invalid credentials" };
           }
         } catch (error: unknown) {
+      
           if (error?.response) {
             throw new CredentialsSignin(error?.response?.data?.message || "Something went wrong.")
           } else if (error?.request) {
@@ -61,7 +62,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       console.log("user", user)
 
       if (account?.provider === "google") {
-
         try {
           const res = await axios.post(`${API}/auth/google`, {
             email: user.email,

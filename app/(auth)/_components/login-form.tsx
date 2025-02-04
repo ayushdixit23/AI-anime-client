@@ -45,7 +45,7 @@ export default function LoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "ayushdixitdev@gmail.com",
-      password: "ayushdixitde"
+      password: "ayushdixitdev"
     },
   });
 

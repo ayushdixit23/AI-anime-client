@@ -1,15 +1,8 @@
 import React from "react";
+import Animedata from "./Animedata";
 
-interface ClientanimeProps {
-  anidata: string;
-}
-
-const Clientanime: React.FC<ClientanimeProps> = ({ anidata }) => {
-  return (
-    <div>
-      <div>Anime Data: {JSON.stringify(anidata)}</div>
-    </div>
-  );
+const Clientanime = ({ anidata }) => {
+  return <Animedata data={anidata} />;
 };
 
 export default Clientanime;

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ClientanimeProps {
-  anidata: any;
+  anidata: string;
 }
 
 const Clientanime: React.FC<ClientanimeProps> = ({ anidata }) => {

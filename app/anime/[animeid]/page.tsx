@@ -1,5 +1,5 @@
 import fetchAnimeById from "@/actions/fetchAnimeById";
-import Clientanime from "./Clientanime";
+import Clientanime from "./Clientanimelayout";
 
 interface Params {
   animeid: string;

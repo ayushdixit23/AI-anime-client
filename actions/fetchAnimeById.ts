@@ -5,17 +5,27 @@ const fetchAnimeById = async (animeId: string) => {
     const response = await axios.get(
       `http://localhost:2422/api/anime/${animeId}`
     );
+
     if (!response.data) {
-      throw new Error("failed to get anime");
+      throw new Error("Anime data not found");
     }
+
     return response.data;
   } catch (error) {
-    let errorMessage = "An error occurred while fetching anime";
-    if (error instanceof Error) {
-      errorMessage = error.message;
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        // Extract error message from API response
+        const apiMessage = error.response.data?.message || "Request failed";
+
+        throw new Error(apiMessage);
+      } else if (error.request) {
+        throw new Error("No response from server. Please try again later.");
+      } else {
+        throw new Error(error.message);
+      }
+    } else {
+      throw new Error("An unexpected error occurred");
     }
-    console.log(errorMessage);
-    throw new Error(errorMessage);
   }
 };
 

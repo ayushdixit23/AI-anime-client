@@ -15,7 +15,7 @@ const fetchAnimeById = async (animeId: string) => {
     if (axios.isAxiosError(error)) {
       if (error.response) {
         // Extract error message from API response
-        const apiMessage = error.response.data?.message || "Request failed";
+        const apiMessage = error.response.data?.message || "Request failed"; // error from response send by server
 
         throw new Error(apiMessage);
       } else if (error.request) {

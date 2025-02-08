@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const Expandtext = ({
-  collapsedNumWords = 40,
+  collapsedNumWords = 80,
   expandButtonText = "show more",
   collapseButtonText = "show less",
   expanded = false,
@@ -19,7 +19,7 @@ const Expandtext = ({
   }
 
   return (
-    <div>
+    <div className="w-4/5">
       <span className="text-white">{displayText}</span>
       <button className="text-white" onClick={handelsetIsExpanded}>
         {isexpanded ? collapseButtonText : expandButtonText}

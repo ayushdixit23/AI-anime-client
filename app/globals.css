@@ -67,3 +67,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(32, 31, 49); /* Match the background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white; /* White scrollbar */
+  border-radius: 6px;
+  border: 3px solid rgb(32, 31, 49); /* Match the background color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3; /* Light gray on hover */
+}

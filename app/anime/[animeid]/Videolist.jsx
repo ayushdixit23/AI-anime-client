@@ -2,6 +2,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { FaChevronDown } from "react-icons/fa"; // Import the icon
+import Video from "./Video";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,8 +14,9 @@ import {
 
 const Videolist = () => {
   return (
-    <div className="w-1/5 bg-r h-[70vh] space-y-3 space-x-3 ">
+    <div className="w-1/5 bg-r h-[80vh] space-y-3 space-x-3 ">
       <h1 className="text-white ml-3 ">List of episodes:</h1>
+
       <div className="flex space-x-4 ">
         <Input
           id="exampleInput"
@@ -42,6 +44,7 @@ const Videolist = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <Video />
     </div>
   );
 };

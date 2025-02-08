@@ -58,6 +58,9 @@
   .bg-r {
     background-color: rgb(32, 31, 49);
   }
+  .custom-input {
+    caret-color: white; /* Change cursor color to white */
+  }
 }
 @layer base {
   * {

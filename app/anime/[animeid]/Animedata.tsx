@@ -17,7 +17,7 @@ const Animedata = ({ data }) => {
           width={180}
           height={80}
           alt={data.anime.animeImage}
-          className="mb-4" // Add margin-bottom to the image
+          className="mb-4"
         />
 
         <h1 className="text-white">{data?.anime?.animeName}</h1>

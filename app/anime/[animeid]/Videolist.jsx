@@ -31,14 +31,14 @@ const Videolist = ({ videodata }) => {
       <h1 className="text-white ml-3 ">List of episodes:</h1>
 
       <div className="flex space-x-4 ">
+        <Input
+          id="exampleInput"
+          type="text"
+          className="w-32 h-8 custom-input text-white"
+          placeholder="Number of Ep"
+        />
         {videos.length > 10 && (
           <>
-            <Input
-              id="exampleInput"
-              type="text"
-              className="w-32 h-8 custom-input text-white"
-              placeholder="Number of Ep"
-            />
             <DropdownMenu>
               <DropdownMenuTrigger className="text-white h-3 flex">
                 EPS:001-100

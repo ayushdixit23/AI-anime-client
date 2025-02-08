@@ -20,18 +20,20 @@ const Animedata = ({ data }) => {
           className="mb-4"
         />
 
-        <h1 className="text-white">{data?.anime?.animeName}</h1>
+        <h1 className="text-white font-sans text-2xl font-bold">
+          {data?.anime?.animeName}
+        </h1>
 
         <div className="flex space-x-2">
-          <h2 className="text-white bg-pink-300 w-6 rounded-sm">
+          <h2 className="text-white bg-pink-300 w-6 rounded-sm font-sans">
             {data?.anime?.animeType}
           </h2>
-          <h2 className="text-white bg-pink-300 w-6 rounded-sm">
+          <h2 className="text-white bg-pink-300 w-6 rounded-sm font-sans">
             {data?.anime?.quality}
           </h2>
         </div>
 
-        <div className="h-48 overflow-y-auto">
+        <div className="h-48 overflow-y-auto font-sans">
           <Expandtext>{data?.anime?.description}</Expandtext>
         </div>
       </div>

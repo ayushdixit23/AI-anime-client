@@ -11,7 +11,7 @@ const Animedata = ({ data }) => {
 
   return (
     <>
-      <div className="bg-r w-1/3 h-[70vh] space-y-4 p-4">
+      <div className="bg-r w-1/3 h-[80vh] space-y-4 p-4">
         <Image
           src={data.anime.animeImage || ""}
           width={180}

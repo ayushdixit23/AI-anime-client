@@ -26,7 +26,7 @@ const Anivideoplayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
       responsive: true,
       fluid: false,
       width: 950,
-      height: 590,
+      height: 620,
       sources: [
         {
           src: videoUrl,
@@ -82,7 +82,7 @@ const Anivideoplayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
   };
 
   return (
-    <div className="flex flex-col items-center p-5 bg-gray-900  shadow-md w-[960px]">
+    <div className="flex flex-col items-center bg-gray-900  shadow-md w-[960px]">
       {/* Video Player */}
       <div data-vjs-player className="relative w-full">
         <video

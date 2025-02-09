@@ -3,10 +3,9 @@ import Animedata from "./Animedata";
 import Videolist from "./Videolist";
 import fetchVideosById from "@/actions/fetchVideosById";
 import Anivideoplayer from "./videoPlayer/Anivideoplayer";
-{
-  /* <Animedata data={anidata} />; */
-  // anime-video-player
-}
+import Videoplayclient from "./Videoplayclient";
+
+// <Anivideoplayer videoUrl={videoUrl} />
 
 const Clientanime = async ({ anidata }) => {
   const videoData = await fetchVideosById(anidata.anime.animeId);
@@ -17,7 +16,7 @@ const Clientanime = async ({ anidata }) => {
   return (
     <div className="flex">
       <Videolist videodata={videoData} />
-      <Anivideoplayer videoUrl={videoUrl} />
+      <Videoplayclient />
       <Animedata data={anidata} />
     </div>
   );

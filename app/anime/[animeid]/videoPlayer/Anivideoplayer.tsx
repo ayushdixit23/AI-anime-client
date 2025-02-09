@@ -15,7 +15,7 @@ const Anivideoplayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
     []
   );
   const [selectedQuality, setSelectedQuality] = useState<string>("");
-
+  console.log(videoUrl);
   useEffect(() => {
     if (!videoRef.current || typeof window === "undefined") return;
 
@@ -82,7 +82,7 @@ const Anivideoplayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-900  shadow-md w-[960px]">
+    <div className="flex flex-col items-center  shadow-md w-[960px]">
       {/* Video Player */}
       <div data-vjs-player className="relative w-full">
         <video

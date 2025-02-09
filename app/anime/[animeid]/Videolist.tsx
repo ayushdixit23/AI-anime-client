@@ -19,12 +19,9 @@ const Videolist = ({ videodata }) => {
 
   useEffect(() => {
     if (videoData) {
-      console.log(videoData);
       setVideos(videoData);
     }
   }, [videoData]);
-
-  console.log(videos);
 
   return (
     <div className="w-1/5 bg-r h-[80vh] space-y-3 space-x-3 ">

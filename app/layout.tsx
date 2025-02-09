@@ -1,18 +1,19 @@
-import { Montserrat_Alternates } from 'next/font/google'
+import { Montserrat_Alternates } from "next/font/google";
 
 const montserrat = Montserrat_Alternates({
-  weight: '400',
-  subsets: ['latin'],
+  weight: "400",
+  subsets: ["latin"],
 
-  variable: '--font-montserrat',
-})
+  variable: "--font-montserrat",
+});
 
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import NextAuthProvider from "./providers/session-provider";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the styles
+import Providers from "./providers/Provider";
 
 export const metadata: Metadata = {
   title: "Anime Hub",
@@ -24,23 +25,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
-      <body
-      className={`${montserrat.className}`}
-      >
+      <body className={`${montserrat.className}`}>
         <ToastContainer />
 
-        <NextAuthProvider >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+        <NextAuthProvider>
+          <Providers>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </Providers>
         </NextAuthProvider>
       </body>
     </html>

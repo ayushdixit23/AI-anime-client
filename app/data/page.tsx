@@ -12,6 +12,11 @@ const Data = () => {
 
   const api = "http://localhost:2422/api"
 
+  const animeId = "death-note-8615"
+
+  const episodeName = "Episode 2"
+  const episodeNumber = 2
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -33,7 +38,7 @@ const Data = () => {
       const uploadData = {
         filename: file.name,
         filetype: file.type,
-        animeId: "death-note"
+        animeId
       }
 
       const { data } = await axios.post(`${api}/generate-presigned-urls`, uploadData);
@@ -63,7 +68,7 @@ const Data = () => {
 
       if (response.status === 200) {
 
-        const res = await axios.post(`${api}/addDataAndStartViedoTranscoding`, { filename })
+        const res = await axios.post(`${api}/uploadepisode/anime/${animeId}`, { filename, episodeName })
         if (res.data.success) {
           toast.success(response.data.message)
         }

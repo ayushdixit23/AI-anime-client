@@ -1,3 +1,12 @@
+import { Montserrat_Alternates } from "next/font/google";
+
+const montserrat = Montserrat_Alternates({
+  weight: "400",
+  subsets: ["latin"],
+
+  variable: "--font-montserrat",
+});
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -18,7 +27,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${montserrat.className}`}>
         <ToastContainer />
 
         <NextAuthProvider>

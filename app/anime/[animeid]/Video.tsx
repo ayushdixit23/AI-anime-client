@@ -9,7 +9,7 @@ const Video = ({ data }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(setVideo(data.url.toString()));
+    dispatch(setVideo(data.url));
   };
 
   return (

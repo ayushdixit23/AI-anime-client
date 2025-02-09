@@ -12,8 +12,8 @@ const videoSlice = createSlice({
   name: "video",
   initialState,
   reducers: {
-    setVideo: (state, action: PayloadAction<videoUrlState>) => {
-      state.url = action.payload.url;
+    setVideo: (state, action: PayloadAction<string>) => {
+      state.url = action.payload;
     },
   },
 });

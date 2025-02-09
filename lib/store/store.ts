@@ -3,7 +3,7 @@ import { videoReducer } from "../slices/videoUrlSlice";
 
 export const store = configureStore({
   reducer: {
-    url: videoReducer,
+    video: videoReducer,
   },
 });
 

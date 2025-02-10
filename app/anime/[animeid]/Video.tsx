@@ -6,10 +6,11 @@ import { RootState } from "../../../lib/store/store";
 import { setVideo } from "../../../lib/slices/videoUrlSlice";
 
 const Video = ({ data }) => {
+  const completeUrl = `https://ddr8m0gdhyi51.cloudfront.net/${data.url}`;
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(setVideo(data.url));
+    dispatch(setVideo(completeUrl));
   };
 
   return (
